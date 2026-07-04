@@ -1,0 +1,974 @@
+                <!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OFFSETT — Estampados personalizados</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#0b0b0d;
+    --black-2:#141417;
+    --white:#fbfaf9;
+    --cream:#f4efec;
+    --accent:#FFB140;
+    --accent-2:#FFCB70;
+    --accent-dim:#D99A3A;
+    --khaki:#B7B3A1;
+    --sage:#D1CA98;
+    --clay:#EDBF85;
+    --banana:#F7F06D;
+    --gray:#8a8890;
+    --line:rgba(255,255,255,.12);
+    --line-dark:rgba(0,0,0,.1);
+    --radius:18px;
+    --ease:cubic-bezier(.16,1,.3,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--black);
+    color:var(--white);
+    font-family:'Inter',sans-serif;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--accent);color:var(--black)}
+  ::-webkit-scrollbar{width:10px}
+  ::-webkit-scrollbar-track{background:var(--black)}
+  ::-webkit-scrollbar-thumb{background:var(--accent-dim);border-radius:10px}
+  ::-webkit-scrollbar-thumb:hover{background:var(--accent)}
+
+  h1,h2,h3,.display{
+    font-family:'Anton',sans-serif;
+    font-weight:400;
+    text-transform:uppercase;
+    letter-spacing:.01em;
+    line-height:.95;
+  }
+  .stroke{
+    -webkit-text-stroke:1.5px var(--accent);
+    color:transparent;
+  }
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .container{max-width:1200px;margin:0 auto;padding:0 24px}
+  .star{color:var(--accent);font-size:.5em;vertical-align:middle;position:relative;top:-.5em}
+  .eyebrow{
+    font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:14px;display:flex;align-items:center;gap:8px;
+  }
+  .eyebrow::before{content:'';width:26px;height:2px;background:var(--accent);display:inline-block}
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    padding:18px 0;transition:all .4s var(--ease);
+  }
+  nav.scrolled{
+    background:rgba(11,11,13,.75);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
+    padding:12px 0;
+  }
+  nav .container{display:flex;align-items:center;justify-content:space-between}
+  .logo{font-family:'Anton',sans-serif;font-size:22px;letter-spacing:.04em;display:flex;align-items:center;gap:6px}
+  .navlinks{display:flex;gap:34px;font-size:14px;font-weight:600;letter-spacing:.02em}
+  .navlinks a{opacity:.75;transition:opacity .25s}
+  .navlinks a:hover{opacity:1;color:var(--accent)}
+  .nav-cta{
+    background:var(--accent);color:var(--black);padding:10px 22px;border-radius:100px;
+    font-weight:700;font-size:13px;letter-spacing:.03em;text-transform:uppercase;
+    transition:transform .25s var(--ease),background .25s;
+  }
+  .nav-cta:hover{transform:scale(1.05);background:var(--accent-2)}
+  .navlinks-wrap{display:flex;align-items:center;gap:34px}
+  .burger{display:none}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    min-height:100vh;
+    padding:150px 0 90px;
+    position:relative;
+    display:flex;align-items:center;
+    background:
+      radial-gradient(ellipse 55% 45% at 82% 22%, rgba(255,177,64,.14), transparent 65%),
+      radial-gradient(ellipse 50% 40% at 12% 92%, rgba(255,177,64,.08), transparent 65%),
+      var(--black);
+  }
+  .hero::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:220px;z-index:0;
+    background:linear-gradient(180deg,var(--black) 0%,rgba(11,11,13,.6) 55%,transparent 100%);
+    pointer-events:none;
+  }
+  .hero-grid{
+    display:grid;grid-template-columns:repeat(12,1fr);column-gap:20px;
+  }
+  .hero-text{grid-column:1/10;grid-row:1;position:relative;z-index:1}
+  .hero h1{font-size:clamp(50px,8.6vw,112px);margin-bottom:22px}
+  .hero-sub{font-size:18px;color:#c9c7ce;max-width:480px;line-height:1.6;margin-bottom:36px}
+  .hero-tags{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px}
+  .pill{
+    border:1px solid var(--line);padding:8px 16px;border-radius:100px;font-size:13px;
+    font-weight:600;color:#d9d7dd;
+  }
+  .hero-ctas{display:flex;gap:14px;flex-wrap:wrap}
+  .btn{
+    padding:15px 28px;border-radius:100px;font-weight:700;font-size:14px;
+    letter-spacing:.02em;text-transform:uppercase;transition:all .3s var(--ease);
+    display:inline-flex;align-items:center;gap:10px;
+  }
+  .btn-primary{background:var(--accent);color:var(--black)}
+  .btn-primary:hover{transform:translateY(-3px);box-shadow:0 14px 30px -8px rgba(255,177,64,.6)}
+  .btn-outline{border:1.5px solid var(--line);color:var(--white)}
+  .btn-outline:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-3px)}
+
+  /* ---------- SHADER INTRO ---------- */
+  .shader-hero{
+    position:relative;min-height:100vh;overflow:hidden;
+    display:flex;align-items:center;justify-content:center;
+    background:var(--black);
+  }
+  .shader-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .shader-overlay{
+    position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(180deg,rgba(11,11,13,.35) 0%,rgba(11,11,13,.55) 55%,var(--black) 100%);
+  }
+  .shader-content{position:relative;z-index:2;text-align:center;max-width:760px;padding:0 24px}
+  .shader-content h1{
+    font-size:clamp(40px,9vw,110px);color:var(--white);margin-bottom:18px;
+    text-shadow:0 4px 40px rgba(0,0,0,.5);
+  }
+  .shader-sub{
+    font-size:18px;line-height:1.65;color:rgba(255,255,255,.75);
+    max-width:560px;margin:0 auto 34px;font-weight:400;
+  }
+  .shader-badge{
+    display:inline-flex;align-items:center;gap:9px;margin-bottom:32px;
+    font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5fe89b;
+  }
+  .shader-dot{position:relative;width:10px;height:10px;display:inline-flex}
+  .shader-dot::before,.shader-dot::after{content:'';position:absolute;border-radius:50%;background:#3ddc84}
+  .shader-dot::before{inset:0;animation:pingDot 1.6s cubic-bezier(0,0,.2,1) infinite}
+  .shader-dot::after{inset:2px}
+  @keyframes pingDot{0%{transform:scale(1);opacity:.75}75%,100%{transform:scale(2.4);opacity:0}}
+
+  .liquid-btn{
+    position:relative;isolation:isolate;display:inline-flex;align-items:center;justify-content:center;
+    height:58px;padding:0 40px;border-radius:999px;cursor:pointer;
+    color:var(--white);font-weight:700;font-size:14px;letter-spacing:.03em;text-transform:uppercase;
+    transition:transform .3s var(--ease);
+  }
+  .liquid-btn:hover{transform:scale(1.05)}
+  .liquid-btn-shine{
+    position:absolute;inset:0;z-index:0;border-radius:999px;pointer-events:none;
+    box-shadow:
+      0 2px 6px rgba(0,0,0,.15),
+      inset 1px 1px 1px -.5px rgba(255,255,255,.6),
+      inset -1px -1px 1px -.5px rgba(255,255,255,.5),
+      inset 0 0 6px 6px rgba(255,255,255,.1),
+      0 0 16px rgba(255,177,64,.45);
+  }
+  .liquid-btn-blur{
+    position:absolute;inset:0;z-index:-1;border-radius:999px;overflow:hidden;
+    background:rgba(255,255,255,.08);
+    -webkit-backdrop-filter:url(#container-glass) blur(8px);
+    backdrop-filter:url(#container-glass) blur(8px);
+  }
+  .liquid-btn-label{position:relative;z-index:1}
+  .visually-hidden{position:absolute;width:0;height:0;overflow:hidden}
+  @media (max-width:560px){
+    .liquid-btn{height:52px;padding:0 30px;font-size:13px}
+  }
+
+  /* IG CARD */
+  .ig-card{
+    background:linear-gradient(180deg,var(--black-2),var(--black));
+    border:1px solid var(--line);
+    border-radius:26px;
+    padding:28px;
+    position:relative;
+    box-shadow:0 40px 80px -30px rgba(0,0,0,.7);
+    grid-column:7/13;grid-row:1;
+    align-self:start;
+    z-index:2;
+    transform:rotate(-2.5deg) translate(16px,54px);
+  }
+  .ig-card::before{
+    content:'';position:absolute;inset:-1px;border-radius:26px;padding:1px;
+    background:linear-gradient(135deg,var(--accent),transparent 40%,transparent 70%,var(--accent-2));
+    -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+    -webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;
+  }
+  .ig-top{display:flex;gap:16px;align-items:center;margin-bottom:20px}
+  .ig-avatar-ring{
+    width:78px;height:78px;border-radius:50%;padding:3px;flex-shrink:0;
+    background:conic-gradient(from 0deg,var(--accent),var(--banana),var(--clay),var(--sage),var(--accent));
+    animation:spin 6s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .ig-avatar{
+    width:100%;height:100%;border-radius:50%;overflow:hidden;border:3px solid var(--black);
+    background:#000;
+  }
+  .ig-avatar img{width:100%;height:100%;object-fit:cover}
+  .ig-name-row{display:flex;align-items:center;gap:6px;font-weight:800;font-size:17px}
+  .ig-badge{
+    width:16px;height:16px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .ig-badge svg{width:9px;height:9px}
+  .ig-handle{color:var(--accent);font-size:14px;font-weight:600}
+  .ig-cat{color:var(--gray);font-size:13px;margin-top:2px}
+  .ig-stats{display:flex;gap:0;margin:18px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:16px 0}
+  .ig-stat{flex:1;text-align:center;border-right:1px solid var(--line)}
+  .ig-stat:last-child{border-right:none}
+  .ig-stat b{display:block;font-size:20px;font-weight:800}
+  .ig-stat span{font-size:12px;color:var(--gray);text-transform:uppercase;letter-spacing:.04em}
+  .ig-bio{font-size:14px;line-height:1.6;color:#d9d7dd;margin-bottom:18px}
+  .ig-actions{display:flex;gap:10px;margin-bottom:20px}
+  .ig-btn{
+    flex:1;text-align:center;padding:11px 10px;border-radius:10px;font-weight:700;font-size:13px;
+    transition:transform .25s var(--ease);
+  }
+  .ig-btn:hover{transform:translateY(-2px)}
+  .ig-btn.primary{background:var(--accent);color:var(--black)}
+  .ig-btn.secondary{border:1px solid var(--line);color:var(--white)}
+  .ig-mini-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:5px}
+  .ig-mini-grid img{aspect-ratio:1/1;object-fit:cover;border-radius:6px}
+
+  /* ---------- MARQUEE ---------- */
+  .marquee{
+    position:relative;background:var(--accent);color:var(--black);padding:26px 0;overflow:hidden;
+    clip-path:polygon(0 14px,100% 0,100% calc(100% - 14px),0 100%);
+  }
+  .marquee-track{display:flex;gap:40px;white-space:nowrap;animation:scroll 26s linear infinite;width:max-content}
+  .marquee-track span{
+    font-family:'Anton',sans-serif;font-size:22px;text-transform:uppercase;
+    display:flex;align-items:center;gap:40px;letter-spacing:.02em;
+  }
+  @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* ---------- SECTION GENERIC ---------- */
+  section{padding:120px 0}
+  .section-head{max-width:640px;margin-bottom:60px}
+  .section-head h2{font-size:clamp(34px,4.4vw,54px)}
+  .services-head{
+    display:flex;align-items:flex-end;justify-content:space-between;gap:30px;
+    max-width:none;flex-wrap:wrap;
+  }
+  .made-to-order{text-align:right}
+  .made-to-order-num{font-family:'Anton',sans-serif;font-size:clamp(38px,4.2vw,58px);color:var(--accent);line-height:1}
+  .made-to-order-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--gray);margin-top:6px}
+
+  /* ---------- SOBRE ---------- */
+  .about{position:relative;background:var(--cream);color:var(--black);overflow:hidden}
+  .about::after{
+    content:'';position:absolute;left:0;right:0;bottom:0;height:110px;z-index:2;
+    background:var(--black);
+    clip-path:polygon(0 100%,100% 45%,100% 100%);
+    pointer-events:none;
+  }
+  .about .eyebrow{color:var(--accent-dim)}
+  .about .eyebrow::before{background:var(--accent-dim)}
+  .about-grid{display:grid;grid-template-columns:40% 1fr;gap:0;align-items:center}
+  .about-text{grid-column:2;padding:0 0 0 56px}
+  .about-text p{font-size:17px;line-height:1.75;color:#3c3a3f;margin-bottom:18px}
+
+  .about-img{
+    position:absolute;top:0;left:0;bottom:0;width:37%;overflow:hidden;
+  }
+  .about-img img{width:100%;height:100%;object-fit:cover;display:block}
+  .about-badges{
+    position:absolute;right:-28px;bottom:44px;z-index:3;
+    display:flex;flex-direction:column;gap:10px;
+  }
+  .value-item{
+    display:flex;gap:12px;align-items:flex-start;max-width:250px;
+    background:var(--black);border-radius:14px;padding:14px 16px;
+    box-shadow:0 24px 40px -18px rgba(0,0,0,.55);
+  }
+  .value-item:nth-child(2){margin-left:26px}
+  .value-icon{
+    width:38px;height:38px;border-radius:10px;background:rgba(255,177,64,.16);color:var(--accent);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .value-icon svg{width:18px;height:18px}
+  .value-item:nth-child(2) .value-icon{background:rgba(247,240,109,.18);color:var(--banana)}
+  .value-item:nth-child(3) .value-icon{background:rgba(209,202,152,.22);color:var(--sage)}
+  .value-item h4{font-family:'Inter',sans-serif;font-weight:800;font-size:13px;margin-bottom:2px;color:var(--white)}
+  .value-item p{font-size:12px;line-height:1.4;color:#c9c7ce;margin:0}
+
+  /* ---------- SERVICIOS ---------- */
+  .services{background:var(--black)}
+  .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .service-card{
+    background:var(--black-2);border:1px solid var(--line);border-radius:var(--radius);
+    padding:30px 24px;transition:transform .35s var(--ease),border-color .35s,background .35s;
+    position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;
+  }
+  .service-card:hover{transform:translateY(-6px);border-color:var(--accent-dim);background:#1a1a1e}
+  .service-icon{
+    width:50px;height:50px;border-radius:14px;background:rgba(255,177,64,.12);color:var(--accent);
+    display:flex;align-items:center;justify-content:center;margin-bottom:20px;
+  }
+  .service-icon svg{width:24px;height:24px}
+  .service-card:nth-child(2) .service-icon{background:rgba(247,240,109,.14);color:var(--banana)}
+  .service-card:nth-child(3) .service-icon{background:rgba(237,191,133,.16);color:var(--clay)}
+  .service-card:nth-child(4) .service-icon{background:rgba(209,202,152,.18);color:var(--sage)}
+  .service-card:nth-child(5) .service-icon{background:rgba(183,179,161,.2);color:var(--khaki)}
+  .service-card:nth-child(6) .service-icon{background:rgba(255,203,112,.16);color:var(--accent-2)}
+  .service-card h3{font-family:'Inter',sans-serif;font-weight:800;font-size:18px;margin-bottom:8px;text-transform:none}
+  .service-card p{font-size:14px;color:var(--gray);line-height:1.6}
+  .services-cta{
+    margin-top:50px;display:flex;align-items:center;justify-content:space-between;
+    flex-wrap:wrap;gap:20px;padding:34px 36px;border-radius:var(--radius);
+    background:linear-gradient(135deg,rgba(255,177,64,.14),rgba(255,177,64,.03));
+    border:1px solid rgba(255,177,64,.25);
+  }
+  .services-cta p{font-size:16px;color:#e7e5ea;max-width:480px}
+  .services-cta strong{color:var(--white)}
+
+  /* ---------- GALERIA ---------- */
+  .gallery{background:var(--black)}
+  .gallery-grid{
+    columns:3;column-gap:16px;
+  }
+  .gallery-item{
+    position:relative;border-radius:14px;cursor:pointer;
+    break-inside:avoid;margin-bottom:16px;
+  }
+  .gallery-item-inner{position:absolute;inset:0;border-radius:inherit;overflow:hidden}
+  .gallery-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s var(--ease)}
+  .gallery-item:hover img{transform:scale(1.08)}
+  .gallery-item:nth-child(1){aspect-ratio:3/4}
+  .gallery-item:nth-child(2){aspect-ratio:1/1}
+  .gallery-item:nth-child(3){aspect-ratio:4/5}
+  .gallery-item:nth-child(4){aspect-ratio:1/1}
+  .gallery-item:nth-child(5){aspect-ratio:3/4}
+  .gallery-item:nth-child(6){aspect-ratio:1/1}
+  .gallery-item:nth-child(7){aspect-ratio:4/5}
+  .gallery-item:nth-child(8){aspect-ratio:1/1}
+  .gallery-item:nth-child(9){aspect-ratio:4/5}
+  .gallery-overlay{
+    position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.85) 0%,transparent 55%);
+    display:flex;align-items:flex-end;padding:18px;opacity:0;transition:opacity .35s;
+  }
+  .gallery-item:hover .gallery-overlay{opacity:1}
+  .gallery-overlay span{font-weight:800;font-size:15px}
+
+  /* ---------- GLOWING FRAME ---------- */
+  @property --glow-angle{syntax:'<angle>';inherits:true;initial-value:0deg}
+  .glow{
+    position:absolute;inset:0;border-radius:inherit;
+    pointer-events:none;z-index:5;
+    opacity:0;
+    transition:opacity .4s ease;
+    filter:
+      drop-shadow(0 0 6px rgba(255,177,64,.9))
+      drop-shadow(0 0 16px rgba(247,240,109,.6))
+      drop-shadow(0 0 28px rgba(209,202,152,.5));
+  }
+  .gallery-item:hover .glow{opacity:1}
+  .glow-ring{
+    position:absolute;inset:0;border-radius:inherit;
+    padding:3px;
+    --glow-angle:0deg;
+    background:conic-gradient(from var(--glow-angle) at 50% 50%,
+      var(--accent) 0%, var(--banana) 25%, var(--clay) 50%, var(--sage) 75%, var(--accent) 100%);
+    -webkit-mask-image:linear-gradient(#fff 0 0),linear-gradient(#fff 0 0);
+    -webkit-mask-clip:content-box,border-box;
+    -webkit-mask-composite:xor;
+    mask-image:linear-gradient(#fff 0 0),linear-gradient(#fff 0 0);
+    mask-clip:content-box,border-box;
+    mask-composite:exclude;
+    animation:glow-rotate 4s linear infinite paused;
+  }
+  .gallery-item:hover .glow-ring{animation-play-state:running}
+  @keyframes glow-rotate{
+    from{--glow-angle:0deg}
+    to{--glow-angle:360deg}
+  }
+
+  /* ---------- CONTACTO ---------- */
+  .contact{background:var(--black-2)}
+  .contact-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:70px}
+  .contact-info h2{font-size:clamp(34px,4.4vw,52px);margin-bottom:20px}
+  .contact-info p{color:#c9c7ce;font-size:16px;line-height:1.7;margin-bottom:36px;max-width:460px}
+  .contact-row{
+    display:flex;align-items:center;gap:16px;padding:18px 0;border-top:1px solid var(--line);
+  }
+  .contact-row:last-of-type{border-bottom:1px solid var(--line)}
+  .contact-row .ic{
+    width:44px;height:44px;border-radius:12px;background:rgba(255,177,64,.12);color:var(--accent);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .contact-row .ic svg{width:20px;height:20px}
+  .contact-row a,.contact-row span.val{font-weight:700;font-size:16px}
+  .contact-row .lbl{display:block;font-size:12px;color:var(--gray);text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px}
+  .contact-card{
+    background:var(--black);border:1px solid var(--line);border-radius:var(--radius);padding:40px;
+    display:flex;flex-direction:column;align-items:center;text-align:center;justify-content:center;
+    background-image:radial-gradient(circle at 50% 0%,rgba(255,177,64,.16),transparent 60%);
+  }
+  .contact-card h3{font-size:30px;margin-bottom:14px}
+  .contact-card p{color:var(--gray);font-size:14px;margin-bottom:26px;line-height:1.6}
+  .contact-card .btn{width:100%;justify-content:center}
+
+  /* ---------- WHATSAPP FAB ---------- */
+  .whatsapp-fab{
+    position:fixed;right:24px;bottom:24px;z-index:200;
+    width:60px;height:60px;border-radius:50%;
+    background:#25D366;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 10px 30px -6px rgba(37,211,102,.65),0 4px 14px rgba(0,0,0,.4);
+    transition:transform .35s cubic-bezier(.16,1,.3,1),box-shadow .3s ease;
+    will-change:transform;
+  }
+  .whatsapp-fab:hover{
+    box-shadow:0 14px 36px -6px rgba(37,211,102,.8),0 6px 18px rgba(0,0,0,.45);
+  }
+  .whatsapp-fab svg{width:28px;height:28px;position:relative;z-index:2}
+  .whatsapp-fab-ring{
+    position:absolute;inset:-6px;border-radius:50%;
+    border:2px solid rgba(37,211,102,.55);
+    animation:whatsappPulse 2.2s cubic-bezier(0,0,.2,1) infinite;
+    pointer-events:none;
+  }
+  @keyframes whatsappPulse{
+    0%{transform:scale(1);opacity:.7}
+    100%{transform:scale(1.4);opacity:0}
+  }
+  @media (max-width:560px){
+    .whatsapp-fab{width:52px;height:52px;right:16px;bottom:16px}
+    .whatsapp-fab svg{width:24px;height:24px}
+  }
+
+  /* ---------- INSTAGRAM FAB ---------- */
+  .instagram-fab{
+    position:fixed;right:24px;bottom:128px;z-index:200;
+    width:60px;height:60px;border-radius:50%;
+    background:radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 10px 30px -6px rgba(214,36,159,.55),0 4px 14px rgba(0,0,0,.4);
+    transition:transform .35s cubic-bezier(.16,1,.3,1),box-shadow .3s ease;
+    will-change:transform;
+  }
+  .instagram-fab:hover{
+    box-shadow:0 14px 36px -6px rgba(214,36,159,.7),0 6px 18px rgba(0,0,0,.45);
+  }
+  .instagram-fab svg{width:26px;height:26px;position:relative;z-index:2}
+  .instagram-fab-ring{
+    position:absolute;inset:-6px;border-radius:50%;
+    border:2px solid rgba(214,36,159,.55);
+    animation:instagramPulse 2.2s cubic-bezier(0,0,.2,1) infinite;
+    animation-delay:.6s;
+    pointer-events:none;
+  }
+  @keyframes instagramPulse{
+    0%{transform:scale(1);opacity:.7}
+    100%{transform:scale(1.4);opacity:0}
+  }
+  @media (max-width:560px){
+    .instagram-fab{width:52px;height:52px;right:16px;bottom:104px}
+    .instagram-fab svg{width:22px;height:22px}
+  }
+
+  footer{
+    background:var(--black);border-top:1px solid var(--line);padding:36px 0;
+  }
+  .footer-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+  .footer-row .logo{font-size:18px}
+  .footer-links{display:flex;gap:24px;font-size:14px;color:var(--gray)}
+  .footer-links a:hover{color:var(--accent)}
+  .footer-copy{font-size:13px;color:var(--gray)}
+
+  /* ---------- REVEAL ---------- */
+  .reveal{opacity:0;transform:translateY(36px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+  .reveal.in{opacity:1;transform:translateY(0)}
+  .stagger .reveal:nth-child(1){transition-delay:.05s}
+  .stagger .reveal:nth-child(2){transition-delay:.12s}
+  .stagger .reveal:nth-child(3){transition-delay:.19s}
+  .stagger .reveal:nth-child(4){transition-delay:.26s}
+  .stagger .reveal:nth-child(5){transition-delay:.33s}
+  .stagger .reveal:nth-child(6){transition-delay:.4s}
+  .stagger .reveal:nth-child(7){transition-delay:.47s}
+  .stagger .reveal:nth-child(8){transition-delay:.54s}
+  .stagger .reveal:nth-child(9){transition-delay:.61s}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:980px){
+    .navlinks{display:none}
+    .hero-grid{grid-template-columns:1fr;row-gap:40px}
+    .hero-text{grid-column:1/-1;grid-row:auto;order:1}
+    .ig-card{grid-column:1/-1;grid-row:auto;order:-1;max-width:460px;margin:0 auto;transform:none}
+    .about-grid{grid-template-columns:1fr}
+    .about-text{grid-column:1;padding:32px 0 0}
+    .about-img{position:static;width:100%;border-radius:var(--radius);overflow:hidden;box-shadow:0 30px 60px -20px rgba(0,0,0,.25)}
+    .about-badges{position:static;margin-top:16px}
+    .value-item{max-width:none}
+    .value-item:nth-child(2){margin-left:0}
+    .services-grid{grid-template-columns:repeat(2,1fr)}
+    .gallery-grid{columns:2}
+    .contact-grid{grid-template-columns:1fr}
+    .about::after{height:70px}
+    .services-head{align-items:flex-start}
+    .made-to-order{text-align:left}
+    section{padding:80px 0}
+  }
+  @media (max-width:560px){
+    .services-grid{grid-template-columns:1fr}
+    .gallery-grid{columns:2}
+    .ig-mini-grid{grid-template-columns:repeat(3,1fr)}
+    .hero{padding:130px 0 60px}
+    .services-cta{flex-direction:column;align-items:flex-start}
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="container">
+    <a href="#top" class="logo">OFFSETT<span class="star">★</span></a>
+    <div class="navlinks-wrap">
+      <div class="navlinks">
+        <a href="#sobre">Sobre</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#galeria">Galería</a>
+        <a href="#contacto">Contacto</a>
+      </div>
+      <a class="nav-cta" href="https://wa.me/5491140715665?text=Hola%20OFFSETT!%20Quiero%20cotizar%20un%20pedido%20de%20estampados" target="_blank" rel="noopener">Cotizar</a>
+    </div>
+  </div>
+</nav>
+
+<section class="shader-hero" id="intro">
+  <canvas class="shader-canvas" id="shaderCanvas"></canvas>
+  <div class="shader-overlay"></div>
+  <div class="shader-content">
+    <h1>Estampar<br>es todo.</h1>
+    <p class="shader-sub">Remeras, buzos, gorras, tazas y toallas con estampados personalizados y duraderos — la ropa que representa tu marca, con la calidad que no tenés que negociar.</p>
+    <div class="shader-badge"><span class="shader-dot"></span> Disponible para nuevos pedidos</div>
+    <div>
+      <a class="liquid-btn" href="https://wa.me/5491140715665?text=Hola%20OFFSETT!%20Quiero%20cotizar%20un%20pedido%20de%20estampados" target="_blank" rel="noopener">
+        <span class="liquid-btn-shine"></span>
+        <span class="liquid-btn-blur"></span>
+        <span class="liquid-btn-label">Cotizá tu pedido</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<svg class="visually-hidden" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="container-glass" x="0%" y="0%" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.05" numOctaves="1" seed="1" result="turbulence"></feTurbulence>
+      <feGaussianBlur in="turbulence" stdDeviation="2" result="blurredNoise"></feGaussianBlur>
+      <feDisplacementMap in="SourceGraphic" in2="blurredNoise" scale="70" xChannelSelector="R" yChannelSelector="B" result="displaced"></feDisplacementMap>
+      <feGaussianBlur in="displaced" stdDeviation="4" result="finalBlur"></feGaussianBlur>
+      <feComposite in="finalBlur" in2="finalBlur" operator="over"></feComposite>
+    </filter>
+  </defs>
+</svg>
+
+<section class="hero" id="top">
+  <div class="container hero-grid">
+    <div class="hero-text">
+      <div class="eyebrow">Estampado textil · Buenos Aires</div>
+      <h1>Hacé realidad<br>tu <span class="stroke">idea.</span></h1>
+      <p class="hero-sub">En OFFSETT creemos que no tenés que elegir entre precio y calidad. Estampados personalizados en remeras, buzos, gorras, tazas y toallas — listos para representar tu marca.</p>
+      <div class="hero-tags">
+        <span class="pill">Remeras</span>
+        <span class="pill">Buzos</span>
+        <span class="pill">Pantalones</span>
+        <span class="pill">Gorras</span>
+        <span class="pill">Tazas</span>
+        <span class="pill">Toallas</span>
+      </div>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" href="https://wa.me/5491140715665?text=Hola%20OFFSETT!%20Quiero%20cotizar%20un%20pedido%20de%20estampados" target="_blank" rel="noopener">Escribinos y cotizá</a>
+        <a class="btn btn-outline" href="https://www.instagram.com/offsett_fm/" target="_blank" rel="noopener">Ver Instagram</a>
+      </div>
+    </div>
+
+    <div class="ig-card">
+      <div class="ig-top">
+        <div class="ig-avatar-ring"><div class="ig-avatar"><img src="assets/instagram/profile.jpg" alt="OFFSETT"></div></div>
+        <div>
+          <div class="ig-name-row">OFFSETT
+            <span class="ig-badge"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#0b0b0d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </div>
+          <a class="ig-handle" href="https://www.instagram.com/offsett_fm/" target="_blank" rel="noopener">@offsett_fm</a>
+          <div class="ig-cat">Indumentaria personalizada · Estampado</div>
+        </div>
+      </div>
+
+      <div class="ig-stats">
+        <div class="ig-stat"><b>13</b><span>Posts</span></div>
+        <div class="ig-stat"><b>64</b><span>Seguidores</span></div>
+        <div class="ig-stat"><b>31</b><span>Seguidos</span></div>
+      </div>
+
+      <p class="ig-bio">Remeras de excelente calidad, estampados duraderos y una relación precio-calidad pensada para tu marca. Hacé realidad tu idea con OFFSETT.</p>
+
+      <div class="ig-actions">
+        <a class="ig-btn primary" href="https://wa.me/5491140715665?text=Hola%20OFFSETT!%20Quiero%20cotizar%20un%20pedido%20de%20estampados" target="_blank" rel="noopener">Contactar</a>
+        <a class="ig-btn secondary" href="#servicios">Servicios</a>
+        <a class="ig-btn secondary" href="https://www.instagram.com/offsett_fm/" target="_blank" rel="noopener">Seguir</a>
+      </div>
+
+      <div class="ig-mini-grid">
+        <img src="assets/instagram/post-9.jpg" alt="">
+        <img src="assets/instagram/post-6.jpg" alt="">
+        <img src="assets/instagram/post-8.jpg" alt="">
+        <img src="assets/instagram/post-11.jpg" alt="">
+        <img src="assets/instagram/post-7.jpg" alt="">
+        <img src="assets/instagram/post-12.jpg" alt="">
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <span>★ REMERAS &nbsp; ★ BUZOS &nbsp; ★ PANTALONES &nbsp; ★ GORRAS &nbsp; ★ TAZAS &nbsp; ★ TOALLAS &nbsp; ★ ESTAMPADO PERSONALIZADO</span>
+    <span>★ REMERAS &nbsp; ★ BUZOS &nbsp; ★ PANTALONES &nbsp; ★ GORRAS &nbsp; ★ TAZAS &nbsp; ★ TOALLAS &nbsp; ★ ESTAMPADO PERSONALIZADO</span>
+  </div>
+</div>
+
+<section class="about" id="sobre">
+  <div class="about-img reveal">
+    <img src="assets/marca/carrusel_2.png" alt="Prendas OFFSETT dobladas, blanco, gris y negro">
+    <div class="about-badges">
+      <div class="value-item reveal">
+        <div class="value-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.5 6.5L21 11l-6.5 2.5L12 20l-2.5-6.5L3 11l6.5-2.5L12 2z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
+        <div><h4>Calidad premium</h4><p>Remeras de excelente calidad, sin pagar de más.</p></div>
+      </div>
+      <div class="value-item reveal">
+        <div class="value-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <div><h4>Estampados duraderos</h4><p>Diseñados para aguantar el uso diario y los lavados.</p></div>
+      </div>
+      <div class="value-item reveal">
+        <div class="value-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3v18M17 7.5c0-1.9-2.2-3.5-5-3.5S7 5.6 7 7.5 9.2 11 12 11s5 1.6 5 3.5-2.2 3.5-5 3.5-5-1.6-5-3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <div><h4>Precios accesibles</h4><p>Excelente relación calidad-precio para producir a mayor escala.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-text">
+        <div class="eyebrow reveal">Sobre OFFSETT</div>
+        <h2 class="reveal" style="color:var(--black);font-size:clamp(30px,3.6vw,44px);margin-bottom:20px">La diferencia está en los detalles</h2>
+        <p class="reveal">Trabajamos con prendas cómodas, resistentes y pensadas para el uso diario. Porque un buen estampado merece una buena remera.</p>
+        <p class="reveal">Sabemos lo importante que es cuidar el presupuesto — por eso ofrecemos una relación calidad-precio superior, en prendas que mantienen su forma y color después de cada lavado.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="services" id="servicios">
+  <div class="container">
+    <div class="section-head services-head">
+      <div>
+        <div class="eyebrow reveal">Nuestros servicios</div>
+        <h2 class="reveal">Estampado para cada tipo de prenda</h2>
+      </div>
+      <div class="made-to-order reveal">
+        <div class="made-to-order-num"><b data-count="100">0</b>%</div>
+        <div class="made-to-order-label">A medida</div>
+      </div>
+    </div>
+    <div class="services-grid stagger">
+      <div class="service-card reveal">
+        <div class="service-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M8 4l4 2 4-2 4 4-3 3v9H7v-9L4 8l4-4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
+        <h3>Remeras</h3>
+        <p>Estampadas a pedido, listas para representar tu marca o tu idea.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M7 4l5 2 5-2 4 5-3 2v9H6v-9L3 9l4-5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
+        <h3>Buzos</h3>
+        <p>Abrigo con estampado duradero, personalizados para equipos o marcas.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M6 3h12l1 6-3 12H8L5 9l1-6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
+        <h3>Pantalones</h3>
+        <p>Indumentaria completa para tu emprendimiento, equipo o marca.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M3 13a9 9 0 0118 0M3 13v3a2 2 0 002 2h1v-6H5a2 2 0 00-2 1zM19 13h1a2 2 0 012 1v0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>Gorras</h3>
+        <p>Bordado o estampado, el detalle que completa tu look de marca.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 4h11v9a5 5 0 01-5 5H9a5 5 0 01-5-5V4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M15 7h2a2.5 2.5 0 010 5h-2" stroke="currentColor" stroke-width="1.6"/></svg></div>
+        <h3>Tazas</h3>
+        <p>Merchandising e ideas de regalo con tu diseño o logo.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="14" height="18" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M18 8h2v9h-2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+        <h3>Toallas</h3>
+        <p>Estampado personalizado también fuera de la indumentaria.</p>
+      </div>
+    </div>
+
+    <div class="services-cta reveal">
+      <p><strong>¿Tenés una idea, un diseño o una marca?</strong><br>Escribinos y cotizá tu pedido — trabajamos por encargo y a medida.</p>
+      <a class="btn btn-primary" href="https://wa.me/5491140715665?text=Hola%20OFFSETT!%20Quiero%20cotizar%20un%20pedido%20de%20estampados" target="_blank" rel="noopener">Cotizar por WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<section class="gallery" id="galeria">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow reveal">Nuestro trabajo</div>
+      <h2 class="reveal">Una muestra de los estampados que realizamos</h2>
+    </div>
+    <div class="gallery-grid stagger">
+      <div class="gallery-item reveal"><div class="glow"><div class="glow-ring"></div></div><div class="gallery-item-inner"><img src="assets/instagram/post-9.jpg" loading="lazy" alt="Remera Maradona"><div class="gallery-overlay"><span>Maradona — Live is Life</span></div></div></div>
+      <div class="gallery-item reveal"><div class="glow"><div class="glow-ring"></div></div><div class="gallery-item-inner"><img src="assets/instagram/post-10.jpg" loading="lazy" alt="Remera Gol a los ingleses"><div class="gallery-overlay"><span>Gol a los ingleses</span></div></div></div>
+      <div class="gallery-item reveal"><div class="glow"><div class="glow-ring"></div></div><div class="gallery-item-inner"><img src="assets/instagram/post-8.jpg" loading="lazy" alt="Remeras Canserbero"><div class="gallery-overlay"><span>Canserbero</span></div></div></div>
+      <div class="gallery-item reveal"><div class="glow"><div class="glow-ring"></div></div><div class="gallery-item-inner"><img src="assets/instagram/post-11.jpg" loading="lazy" alt="Remera Linkin Park"><div class="gallery-overlay"><span>Linkin Park</span></div></div></div>
+      <div class="gallery-item reveal"><div class="glow"><div class="glow-ring"></div></div><div class="gallery-item-inner"><img src="assets/instagram/post-6.jpg" loading="lazy" alt="Remera Bad Bunny"><div class="gallery-overlay"><span>Bad Bunny — World Tour</span></div></div></div>
+      <div class="gallery-item reveal"><div class="glow"><div class="glow-ring"></div></div><div class="gallery-item-inner"><img src="assets/instagram/post-7.jpg" loading="lazy" alt="Remera Goku"><div class="gallery-overlay"><span>Mario Castañeda × Goku</span></div></div></div>
+      <div class="gallery-item reveal"><div class="glow"><div class="glow-ring"></div></div><div class="gallery-item-inner"><img src="assets/instagram/post-12.jpg" loading="lazy" alt="Remera Don Ramon"><div class="gallery-overlay"><span>Don Ramon</span></div></div></div>
+      <div class="gallery-item reveal"><div class="glow"><div class="glow-ring"></div></div><div class="gallery-item-inner"><img src="assets/instagram/post-4.jpg" loading="lazy" alt="Diseño personalizado padre e hijo"><div class="gallery-overlay"><span>Diseño personalizado</span></div></div></div>
+      <div class="gallery-item reveal"><div class="glow"><div class="glow-ring"></div></div><div class="gallery-item-inner"><img src="assets/instagram/post-5.jpg" loading="lazy" alt="Producción a medida"><div class="gallery-overlay"><span>Producción a medida</span></div></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contacto">
+  <div class="container contact-grid">
+    <div class="contact-info">
+      <div class="eyebrow reveal">Contacto</div>
+      <h2 class="reveal">Hablemos de<br>tu <span class="stroke">pedido.</span></h2>
+      <p class="reveal">Contanos qué prenda necesitás y qué querés estampar. Te enviamos una cotización a medida, clara y sin demoras.</p>
+
+      <div class="contact-row reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M3 5.5A2.5 2.5 0 015.5 3H8l2 5-2.5 1.5a11 11 0 005 5L14 12l5 2v2.5A2.5 2.5 0 0116.5 19 14.5 14.5 0 013 5.5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
+        <div><span class="lbl">WhatsApp</span><a href="https://wa.me/5491140715665?text=Hola%20OFFSETT!%20Quiero%20cotizar%20un%20pedido%20de%20estampados" target="_blank" rel="noopener">+54 9 11 4071-5665</a></div>
+      </div>
+      <div class="contact-row reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor"/></svg></div>
+        <div><span class="lbl">Instagram</span><a href="https://www.instagram.com/offsett_fm/" target="_blank" rel="noopener">@offsett_fm</a></div>
+      </div>
+      <div class="contact-row reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-6.1-7-11.5A7 7 0 0112 2a7 7 0 017 7.5C19 14.9 12 21 12 21z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="9.5" r="2.4" stroke="currentColor" stroke-width="1.6"/></svg></div>
+        <div><span class="lbl">Ubicación</span><span class="val">Buenos Aires, Argentina</span></div>
+      </div>
+    </div>
+
+    <div class="contact-card reveal">
+      <h3>OFFSETT<span class="star">★</span></h3>
+      <p>Escribinos por WhatsApp y contanos tu idea. Te respondemos con la cotización de tu pedido.</p>
+      <a class="btn btn-primary" href="https://wa.me/5491140715665?text=Hola%20OFFSETT!%20Quiero%20cotizar%20un%20pedido%20de%20estampados" target="_blank" rel="noopener">Escribinos ahora</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container footer-row">
+    <a href="#top" class="logo">OFFSETT<span class="star">★</span></a>
+    <div class="footer-links">
+      <a href="https://www.instagram.com/offsett_fm/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://wa.me/5491140715665" target="_blank" rel="noopener">WhatsApp</a>
+      <a href="#servicios">Servicios</a>
+    </div>
+    <div class="footer-copy">© 2026 OFFSETT. Todos los derechos reservados.</div>
+  </div>
+</footer>
+
+<a class="instagram-fab" id="instagramFab" href="https://www.instagram.com/offsett_fm/" target="_blank" rel="noopener" aria-label="Seguinos en Instagram">
+  <span class="instagram-fab-ring" aria-hidden="true"></span>
+  <svg viewBox="0 0 448 512" fill="#fff" aria-hidden="true">
+    <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/>
+  </svg>
+</a>
+
+<a class="whatsapp-fab" id="whatsappFab" href="https://wa.me/5491140715665?text=Hola%20OFFSETT!%20Quiero%20cotizar%20un%20pedido%20de%20estampados" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp">
+  <span class="whatsapp-fab-ring" aria-hidden="true"></span>
+  <svg viewBox="0 0 448 512" fill="#fff" aria-hidden="true">
+    <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-66.9-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3s19.9 53.7 22.6 57.4c2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
+  </svg>
+</a>
+
+<script>
+  // Nav blur on scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Reveal on scroll
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => io.observe(el));
+
+  // Counter animation
+  const counters = document.querySelectorAll('[data-count]');
+  const cio = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const el = e.target;
+        const target = parseInt(el.getAttribute('data-count'), 10);
+        const duration = 1400;
+        const start = performance.now();
+        function tick(now) {
+          const p = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.round(eased * target);
+          if (p < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+        cio.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+  counters.forEach(el => cio.observe(el));
+
+  // Magnetic floating buttons
+  function initMagneticFab(fab, strength = 0.4, radius = 70) {
+    let ticking = false;
+    let lastX = 0, lastY = 0;
+
+    function updateMagnet() {
+      const rect = fab.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = lastX - cx;
+      const dy = lastY - cy;
+      const dist = Math.hypot(dx, dy);
+
+      if (dist < rect.width / 2 + radius) {
+        fab.style.transform = `translate(${dx * strength}px, ${dy * strength}px)`;
+      } else {
+        fab.style.transform = 'translate(0px, 0px)';
+      }
+      ticking = false;
+    }
+
+    window.addEventListener('pointermove', (e) => {
+      lastX = e.clientX;
+      lastY = e.clientY;
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(updateMagnet);
+      }
+    }, { passive: true });
+  }
+
+  const whatsappFab = document.getElementById('whatsappFab');
+  if (whatsappFab) initMagneticFab(whatsappFab);
+
+  const instagramFab = document.getElementById('instagramFab');
+  if (instagramFab) initMagneticFab(instagramFab);
+</script>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+  }
+}
+</script>
+<script type="module">
+  import * as THREE from "three";
+
+  const canvas = document.getElementById('shaderCanvas');
+  if (canvas) {
+    const section = canvas.closest('.shader-hero');
+
+    const vertexShader = `
+      attribute vec3 position;
+      void main() {
+        gl_Position = vec4(position, 1.0);
+      }
+    `;
+
+    const fragmentShader = `
+      precision highp float;
+      uniform vec2 resolution;
+      uniform float time;
+      uniform float xScale;
+      uniform float yScale;
+      uniform float distortion;
+
+      void main() {
+        vec2 p = (gl_FragCoord.xy * 2.0 - resolution) / min(resolution.x, resolution.y);
+
+        float d = length(p) * distortion;
+
+        float rx = p.x * (1.0 + d);
+        float gx = p.x;
+        float bx = p.x * (1.0 - d);
+
+        float r = 0.05 / abs(p.y + sin((rx + time) * xScale) * yScale);
+        float g = 0.05 / abs(p.y + sin((gx + time) * xScale) * yScale);
+        float b = 0.05 / abs(p.y + sin((bx + time) * xScale) * yScale);
+
+        gl_FragColor = vec4(r, g, b, 1.0);
+      }
+    `;
+
+    const scene = new THREE.Scene();
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: false });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setClearColor(new THREE.Color(0x000000));
+
+    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, -1);
+
+    const uniforms = {
+      resolution: { value: [section.clientWidth, section.clientHeight] },
+      time: { value: 0.0 },
+      xScale: { value: 1.0 },
+      yScale: { value: 0.5 },
+      distortion: { value: 0.05 },
+    };
+
+    const positions = new THREE.BufferAttribute(new Float32Array([
+      -1, -1, 0,  1, -1, 0, -1, 1, 0,
+       1, -1, 0, -1, 1, 0,  1, 1, 0,
+    ]), 3);
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', positions);
+
+    const material = new THREE.RawShaderMaterial({
+      vertexShader,
+      fragmentShader,
+      uniforms,
+      side: THREE.DoubleSide,
+    });
+
+    const mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
+
+    function resize() {
+      const w = section.clientWidth;
+      const h = section.clientHeight;
+      renderer.setSize(w, h, false);
+      uniforms.resolution.value = [w, h];
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    function animate() {
+      uniforms.time.value += 0.01;
+      renderer.render(scene, camera);
+      requestAnimationFrame(animate);
+    }
+    animate();
+  }
+</script>
+</body>
+</html>

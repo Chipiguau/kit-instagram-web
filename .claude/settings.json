@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(cd \"c:\\\\Users\\\\marco\\\\OneDrive\\\\Escritorio\\\\Skills\\\\10 SKILLS ADRI Y JUANPE \\(1\\)\\\\kit-instagram-web\"; Get-ChildItem -Force | Select-Object Name; \"---\"; \\(Get-ChildItem \"node_modules\" -ErrorAction SilentlyContinue | Measure-Object\\).Count)",
+      "PowerShell($dest = \"c:\\\\Users\\\\marco\\\\OneDrive\\\\Escritorio\\\\Skills\\\\10 SKILLS ADRI Y JUANPE \\(1\\)\\\\offsett-scroll\\\\public\\\\gallery\"; New-Item -ItemType Directory -Force -Path $dest | Out-Null; $src = \"c:\\\\Users\\\\marco\\\\OneDrive\\\\Escritorio\\\\Skills\\\\10 SKILLS ADRI Y JUANPE \\(1\\)\\\\kit-instagram-web\\\\assets\\\\instagram\"; $files = @\\(\"post-9.jpg\",\"post-10.jpg\",\"post-8.jpg\",\"post-11.jpg\",\"post-6.jpg\",\"post-7.jpg\",\"post-12.jpg\",\"post-4.jpg\",\"post-5.jpg\",\"profile.jpg\"\\); foreach \\($f in $files\\) { Copy-Item \\(Join-Path $src $f\\) \\(Join-Path $dest $f\\) -Force }; Get-ChildItem $dest | Select-Object Name,Length)",
+      "PowerShell($dest = \"c:\\\\Users\\\\marco\\\\OneDrive\\\\Escritorio\\\\Skills\\\\10 SKILLS ADRI Y JUANPE \\(1\\)\\\\offsett-scroll\\\\public\"; Copy-Item \"c:\\\\Users\\\\marco\\\\OneDrive\\\\Escritorio\\\\Skills\\\\10 SKILLS ADRI Y JUANPE \\(1\\)\\\\kit-instagram-web\\\\assets\\\\marca\\\\logo_offsett.jpg\" \\(Join-Path $dest \"logo_offsett.jpg\"\\) -Force)",
+      "Read(//c/Users/marco/OneDrive/Escritorio/Skills/10 SKILLS ADRI Y JUANPE \\(1\\)/offsett-scroll/**)",
+      "Read(//c/Users/marco/OneDrive/Escritorio/Skills/10 SKILLS ADRI Y JUANPE \\(1\\)/offsett-scroll/src/**)",
+      "PowerShell(New-Item -ItemType Directory -Force -Path \"c:\\\\Users\\\\marco\\\\OneDrive\\\\Escritorio\\\\Skills\\\\10 SKILLS ADRI Y JUANPE \\(1\\)\\\\offsett-scroll\\\\src\\\\components\")",
+      "PowerShell(New-Item -ItemType Directory -Force -Path \"c:\\\\Users\\\\marco\\\\OneDrive\\\\Escritorio\\\\Skills\\\\10 SKILLS ADRI Y JUANPE \\(1\\)\\\\offsett-scroll\\\\src\\\\lib\")",
+      "PowerShell(cd \"c:\\\\Users\\\\marco\\\\OneDrive\\\\Escritorio\\\\Skills\\\\10 SKILLS ADRI Y JUANPE \\(1\\)\\\\offsett-scroll\"; npx tsc -b; \"EXIT_CODE=$LASTEXITCODE\")"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\marco\\OneDrive\\Escritorio\\Skills\\10 SKILLS ADRI Y JUANPE (1)\\offsett-scroll",
+      "c:\\Users\\marco\\OneDrive\\Escritorio\\Skills\\10 SKILLS ADRI Y JUANPE (1)\\offsett-scroll\\src\\lib",
+      "c:\\Users\\marco\\OneDrive\\Escritorio\\Skills\\10 SKILLS ADRI Y JUANPE (1)\\offsett-scroll\\src\\hooks",
+      "c:\\Users\\marco\\OneDrive\\Escritorio\\Skills\\10 SKILLS ADRI Y JUANPE (1)\\offsett-scroll\\src\\components",
+      "c:\\Users\\marco\\OneDrive\\Escritorio\\Skills\\10 SKILLS ADRI Y JUANPE (1)\\offsett-scroll\\src"
+    ]
+  }
+}
