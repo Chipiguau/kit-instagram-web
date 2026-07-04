@@ -248,10 +248,10 @@
     position:relative;background:var(--accent);color:var(--black);padding:26px 0;overflow:hidden;
     clip-path:polygon(0 14px,100% 0,100% calc(100% - 14px),0 100%);
   }
-  .marquee-track{display:flex;gap:40px;white-space:nowrap;animation:scroll 26s linear infinite;width:max-content}
+  .marquee-track{display:flex;white-space:nowrap;animation:scroll 26s linear infinite;width:max-content}
   .marquee-track span{
     font-family:'Anton',sans-serif;font-size:22px;text-transform:uppercase;
-    display:flex;align-items:center;gap:40px;letter-spacing:.02em;
+    display:flex;align-items:center;letter-spacing:.02em;padding-right:40px;
   }
   @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
