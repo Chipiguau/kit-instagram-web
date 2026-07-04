@@ -130,7 +130,10 @@
   .shader-hero{
     position:relative;min-height:100vh;overflow:hidden;
     display:flex;align-items:center;justify-content:center;
-    background:var(--black);
+    background:
+      radial-gradient(ellipse 70% 55% at 25% 15%, rgba(255,177,64,.16), transparent 60%),
+      radial-gradient(ellipse 60% 50% at 75% 85%, rgba(247,240,109,.09), transparent 60%),
+      var(--black);
   }
   .shader-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
   .shader-overlay{
@@ -641,7 +644,7 @@
 
 <section class="about" id="sobre">
   <div class="about-img reveal">
-    <img src="assets/marca/carrusel_2.png" alt="Prendas OFFSETT dobladas, blanco, gris y negro">
+    <img src="assets/marca/carrusel_2.png" alt="Prendas OFFSETT dobladas, blanco, gris y negro" loading="lazy">
     <div class="about-badges">
       <div class="value-item reveal">
         <div class="value-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.5 6.5L21 11l-6.5 2.5L12 20l-2.5-6.5L3 11l6.5-2.5L12 2z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
@@ -883,10 +886,12 @@
 }
 </script>
 <script type="module">
-  import * as THREE from "three";
-
   const canvas = document.getElementById('shaderCanvas');
-  if (canvas) {
+  const isMobile = window.matchMedia('(max-width: 780px)').matches
+    || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (canvas && !isMobile) {
+    const THREE = await import('three');
     const section = canvas.closest('.shader-hero');
 
     const vertexShader = `
