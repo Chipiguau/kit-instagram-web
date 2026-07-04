@@ -284,7 +284,7 @@
   .about-img{
     position:absolute;top:0;left:0;bottom:0;width:37%;overflow:hidden;
   }
-  .about-img img{width:100%;height:100%;object-fit:cover;object-position:100% 55%;transform:scale(2.3);transform-origin:100% 55%;display:block}
+  .about-img img{width:100%;height:100%;object-fit:cover;object-position:100% 55%;transform:scale(2.3);transform-origin:100% 55%;display:block;-webkit-user-drag:none;user-select:none;pointer-events:none}
   .about-badges{
     position:absolute;right:-28px;bottom:44px;z-index:3;
     display:flex;flex-direction:column;gap:10px;
@@ -647,7 +647,7 @@
 
 <section class="about" id="sobre">
   <div class="about-img reveal">
-    <img src="assets/marca/carrusel_2.png" alt="Prendas OFFSETT dobladas, blanco, gris y negro" loading="lazy">
+    <img src="assets/marca/carrusel_2.png" alt="Prendas OFFSETT dobladas, blanco, gris y negro" loading="lazy" draggable="false">
     <div class="about-badges">
       <div class="value-item reveal">
         <div class="value-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.5 6.5L21 11l-6.5 2.5L12 20l-2.5-6.5L3 11l6.5-2.5L12 2z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
